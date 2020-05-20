@@ -172,7 +172,7 @@ public class Cell implements Drawable {
         if(Math.random() > 0.5) {
             newCell.nn.mutate(0.1, 0.1);
         } else {
-            newCell.nn.crossover(topCell.nn);
+            newCell.nn.crossWith(topCell.nn);
         }
 
 

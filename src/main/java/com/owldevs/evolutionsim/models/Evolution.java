@@ -62,21 +62,21 @@ public class Evolution {
             int rand2 = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
             if (topForeverCellList.size() - 1 < rand1 || topForeverCellList.size() - 1 < rand2) continue;
             newGenerationCells.get(i).nn = topForeverCellList.get(rand1).nn.clone();
-            newGenerationCells.get(i).nn.crossover(topForeverCellList.get(rand2).nn);
+            newGenerationCells.get(i).nn.crossWith(topForeverCellList.get(rand2).nn);
         }
         for (int i = leaderBoardsSize; i < leaderBoardsSize * 2; i++) {
             int rand1 = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
             int rand2 = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
             if (topForeverCellList.size() - 1 < rand1 || topGenerationCellList.size() - 1 < rand2) continue;
             newGenerationCells.get(i).nn = topForeverCellList.get(rand1).nn.clone();
-            newGenerationCells.get(i).nn.crossover(topGenerationCellList.get(rand2).nn);
+            newGenerationCells.get(i).nn.crossWith(topGenerationCellList.get(rand2).nn);
         }
         for (int i = leaderBoardsSize * 2; i < leaderBoardsSize * 3; i++) {
             int rand1 = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
             int rand2 = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
             if (topGenerationCellList.size() - 1 < rand1 || topGenerationCellList.size() - 1 < rand2) continue;
             newGenerationCells.get(i).nn = topGenerationCellList.get(rand1).nn.clone();
-            newGenerationCells.get(i).nn.crossover(topGenerationCellList.get(rand2).nn);
+            newGenerationCells.get(i).nn.crossWith(topGenerationCellList.get(rand2).nn);
         }
         for (int i = leaderBoardsSize * 3; i < leaderBoardsSize * 4; i++) {
             int rand = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
