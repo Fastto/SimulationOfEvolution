@@ -24,6 +24,8 @@ public class Evolution {
 
     private Graph graph;
 
+    private Log log;
+
     public Evolution(Integer width, Integer height) {
         this.width = width;
         this.height = height;
@@ -38,6 +40,8 @@ public class Evolution {
         deathDistance = 50;
 
         graph = new Graph(width, height);
+
+        log = new Log(width, height);
     }
 
     public Boolean isTimeToEvolute() {
@@ -45,10 +49,10 @@ public class Evolution {
     }
 
     public void evolute() {
-        topForeverCellList.forEach(cell -> System.out.print(cell.totalEaten.toString() + " "));
-        System.out.println("");
-        topGenerationCellList.forEach(cell -> System.out.print(cell.totalEaten.toString() + " "));
-        System.out.println("");
+        topForeverCellList.forEach(cell -> log.add(cell.totalEaten.toString() + " "));
+        log.addLn("");
+        topGenerationCellList.forEach(cell -> log.add(cell.totalEaten.toString() + " "));
+        log.addLn("");
 
         //NEW GENERATION
         List<Cell> newGenerationCells = new LinkedList<>();
@@ -103,7 +107,7 @@ public class Evolution {
 
         hungryStep = 0;
         generationNumber++;
-        System.out.println("New generation " + generationNumber.toString());
+        log.addLn("New generation " + generationNumber.toString());
 
         //topForeverCellList.forEach(cell -> cell.totalEaten--);
     }
@@ -180,6 +184,7 @@ public class Evolution {
         sprites.addAll(cellOnBoardList);
 
         sprites.add(graph);
+        sprites.add(log);
         return sprites;
     }
 

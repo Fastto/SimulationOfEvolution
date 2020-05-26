@@ -78,7 +78,6 @@ public class Cell implements Drawable {
             int dx = (int)(vectorToFood.getKey() * 30);
             int dy = (int) (vectorToFood.getValue() * 30);
             graphics.drawLine(x, y, x + dx, y + dy);
-//            graphics.drawLine(x, y, (x + nearFood.x - x), (y + nearFood.y - y));
         }
 
         //draw stat
@@ -92,7 +91,6 @@ public class Cell implements Drawable {
 
         AbstractMap.SimpleEntry<Double, Double> vectorToFood = getVectorToFood(nearFood);
         double[] direction = nn.feedForward(new double[]{vectorToFood.getKey(), vectorToFood.getValue()});
-//        double[] direction = nn.feedForward(new double[]{vectorToFood.getKey(), vectorToFood.getValue(), distanceToFood(nearFood)});
 
         if (Double.isNaN(direction[0]) || Double.isNaN(direction[1])) {
             direction[0] = Math.random() - 0.5;
@@ -101,9 +99,6 @@ public class Cell implements Drawable {
 
         double ddx = Math.floor((direction[0] * getMaxSpeed()));
         double ddy =  Math.floor((direction[1] * getMaxSpeed()));
-
-//        ddx += (Math.random() - 0.5) * hungryMadness * hungrySteps;
-//        ddy += (Math.random() - 0.5) * hungryMadness * hungrySteps;
 
         int dx = (int) ddx;
         int dy = (int) ddy;

@@ -15,6 +15,9 @@ public class PlainEarthForm extends JFrame implements Runnable, MouseListener, K
     private final int w;
     private final int h;
 
+    private int speed = 1;
+    private int nonRenderedCalculations = 0;
+
     private boolean enableRendering;
 
     private BufferedImage spriteBufferedImage;
@@ -54,13 +57,15 @@ public class PlainEarthForm extends JFrame implements Runnable, MouseListener, K
     @Override
     public void paint(Graphics graphics) {
 
-        if(evolution.isTimeToEvolute()) {
+        if (evolution.isTimeToEvolute()) {
             evolution.evolute();
         }
 
         evolution.calcStep();
 
-        if (enableRendering) {
+        nonRenderedCalculations++;
+
+        if (nonRenderedCalculations >= speed * speed) {
             //отрисовка фона
             for (int i = 0; i < w / 8; i++) {
                 for (int j = 0; j < h / 8; j++) {
@@ -75,6 +80,8 @@ public class PlainEarthForm extends JFrame implements Runnable, MouseListener, K
 
             evolution.getSprites().forEach(sprite -> sprite.draw(spriteGraphic));
             graphics.drawImage(spriteBufferedImage, 8, 30, w, h, this);
+
+            nonRenderedCalculations = 0;
         }
 
     }
@@ -82,11 +89,16 @@ public class PlainEarthForm extends JFrame implements Runnable, MouseListener, K
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == ' ') {
+            speed += 1;
+            if (speed > 9) speed = 1;
             enableRendering = !enableRendering;
         } else if (e.getKeyChar() == 'e') {
             evolution.evolute();
+        } else if (e.getKeyChar() == '0') {
+            speed = 100;
+        } else if ("123456789".contains(String.valueOf(e.getKeyChar()))) {
+            speed = Integer.parseInt(String.valueOf(e.getKeyChar()));
         }
-
     }
 
     @Override
