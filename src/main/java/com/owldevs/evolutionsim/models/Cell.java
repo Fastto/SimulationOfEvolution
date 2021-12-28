@@ -44,7 +44,7 @@ public class Cell implements Drawable {
         color = Color.white;
         type = Type.CELL;
 
-        maxSpeed = 7f;
+        maxSpeed = 10f;
         weightToDiv = 30;
         hungryMadness = .01f;
         sizeToWeightK = 1f;
@@ -175,9 +175,9 @@ public class Cell implements Drawable {
         int green = color.getGreen();
         int blue = color.getBlue();
 
-        red += (Math.random()-.5) * 8;
-        green += (Math.random()-.5) * 8;
-        blue += (Math.random()-.5) * 8;
+        red += (Math.random()-.5) * 20;
+        green += (Math.random()-.5) * 20;
+        blue += (Math.random()-.5) * 20;
 
         if(red > 255) red = 255;
         if(red < 0) red = 0;
@@ -229,7 +229,9 @@ public class Cell implements Drawable {
     }
 
     public Float getMaxSpeed ( ) {
-        return maxSpeed * (20/weight);
+        Float speed = maxSpeed * ((maxSpeed)/weight);
+        //if(speed > maxSpeed) speed = maxSpeed;
+        return speed;
     }
 
 }

@@ -26,8 +26,8 @@ public class PlainEarthForm extends JFrame implements Runnable, MouseListener, K
     private Evolution evolution;
 
     public PlainEarthForm() {
-        w = 1500;
-        h = 1000;
+        w = 1280;
+        h = 720;
 
         //Business objects
         evolution = new Evolution(w, h);
@@ -98,6 +98,10 @@ public class PlainEarthForm extends JFrame implements Runnable, MouseListener, K
             speed = 100;
         } else if ("123456789".contains(String.valueOf(e.getKeyChar()))) {
             speed = Integer.parseInt(String.valueOf(e.getKeyChar()));
+        } else if (e.getKeyChar() == 'a') {
+            evolution.decreaseLimit();
+        } else if (e.getKeyChar() == 'd') {
+            evolution.increaseLimit();
         }
     }
 

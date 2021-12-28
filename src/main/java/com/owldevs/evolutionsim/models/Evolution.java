@@ -34,9 +34,9 @@ public class Evolution {
         hungryStepsLimit = 300;
         hungryStep = hungryStepsLimit;
 
-        newGenerationSize = 48;
+        newGenerationSize = 96;
         leaderBoardsSize = (newGenerationSize) / 6;
-        foodQuantity = 140;
+        foodQuantity = 150;
         deathDistance = 50;
 
         graph = new Graph(width, height);
@@ -67,6 +67,8 @@ public class Evolution {
             if (topForeverCellList.size() - 1 < rand1 || topForeverCellList.size() - 1 < rand2) continue;
             newGenerationCells.get(i).nn = topForeverCellList.get(rand1).nn.clone();
             newGenerationCells.get(i).nn.crossWith(topForeverCellList.get(rand2).nn);
+
+            newGenerationCells.get(i).color = topForeverCellList.get(rand1).color;
         }
         for (int i = leaderBoardsSize; i < leaderBoardsSize * 2; i++) {
             int rand1 = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
@@ -74,6 +76,8 @@ public class Evolution {
             if (topForeverCellList.size() - 1 < rand1 || topGenerationCellList.size() - 1 < rand2) continue;
             newGenerationCells.get(i).nn = topForeverCellList.get(rand1).nn.clone();
             newGenerationCells.get(i).nn.crossWith(topGenerationCellList.get(rand2).nn);
+
+            newGenerationCells.get(i).color = topForeverCellList.get(rand1).color;
         }
         for (int i = leaderBoardsSize * 2; i < leaderBoardsSize * 3; i++) {
             int rand1 = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
@@ -81,18 +85,24 @@ public class Evolution {
             if (topGenerationCellList.size() - 1 < rand1 || topGenerationCellList.size() - 1 < rand2) continue;
             newGenerationCells.get(i).nn = topGenerationCellList.get(rand1).nn.clone();
             newGenerationCells.get(i).nn.crossWith(topGenerationCellList.get(rand2).nn);
+
+            newGenerationCells.get(i).color = topGenerationCellList.get(rand1).color;
         }
         for (int i = leaderBoardsSize * 3; i < leaderBoardsSize * 4; i++) {
             int rand = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
             if (topForeverCellList.size() - 1 < rand) continue;
             newGenerationCells.get(i).nn = topForeverCellList.get(rand).nn.clone();
             newGenerationCells.get(i).nn.mutate(0.05, 0.2);
+
+            newGenerationCells.get(i).color = topForeverCellList.get(rand).color;
         }
         for (int i = leaderBoardsSize * 4; i < leaderBoardsSize * 5; i++) {
             int rand = (int) Math.round(Math.random() * (leaderBoardsSize - 1));
             if (topGenerationCellList.size() - 1 < rand) continue;
             newGenerationCells.get(i).nn = topGenerationCellList.get(rand).nn.clone();
             newGenerationCells.get(i).nn.mutate(0.1, .5);
+
+            newGenerationCells.get(i).color = topGenerationCellList.get(rand).color;
         }
         topGenerationCellList.clear();
 
@@ -145,10 +155,15 @@ public class Evolution {
         if (foodToRemoveList.size() > 0) {
             for (Food food : foodToRemoveList) {
                 foodOnBoardList.remove(food);
-                foodOnBoardList.add(new Food((int) (Math.random() * width), (int) (Math.random() * height)));
+                //foodOnBoardList.add(new Food((int) (Math.random() * width), (int) (Math.random() * height)));
             }
             foodToRemoveList.clear();
         }
+
+        while (foodOnBoardList.size() < foodQuantity) {
+            foodOnBoardList.add(new Food((int) (Math.random() * width), (int) (Math.random() * height)));
+        }
+
         hungryStep++;
 
         cellOnBoardList.stream().filter(Cell::isDead).forEach(cellToRemoveList::add);
@@ -210,5 +225,17 @@ public class Evolution {
                 .sorted(Comparator.comparingInt(Cell::getCount).reversed())
                 .collect(Collectors.toList());
         return leaderBoard;
+    }
+
+    public void increaseLimit() {
+        foodQuantity += 50;
+        log.addLn("Limit of food quantity has been set to " + foodQuantity.toString());
+    }
+
+
+    public void decreaseLimit() {
+        foodQuantity -= 50;
+        if (foodQuantity < 0) foodQuantity = 0;
+        log.addLn("Limit of food quantity has been set to " + foodQuantity.toString());
     }
 }
